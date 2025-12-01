@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #############################################
-# n8n Cursor MCP Server - Kurulum Script'i
+# n8n Cursor MCP Server - Installation Script
 #############################################
 
 set -e
 
-# Renkler
+# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -16,11 +16,11 @@ NC='\033[0m' # No Color
 # Logo
 echo -e "${BLUE}"
 echo "╔═══════════════════════════════════════════╗"
-echo "║     n8n Cursor MCP Server Kurulumu        ║"
+echo "║     n8n Cursor MCP Server Installation    ║"
 echo "╚═══════════════════════════════════════════╝"
 echo -e "${NC}"
 
-# Fonksiyonlar
+# Functions
 print_success() {
     echo -e "${GREEN}✓ $1${NC}"
 }
@@ -37,76 +37,76 @@ print_warning() {
     echo -e "${YELLOW}⚠ $1${NC}"
 }
 
-# Script'in bulunduğu dizin
+# Script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR"
 
-# 1. Node.js kontrolü
+# 1. Node.js check
 echo ""
-print_info "Node.js kontrolü yapılıyor..."
+print_info "Checking Node.js..."
 if ! command -v node &> /dev/null; then
-    print_error "Node.js bulunamadı!"
-    echo "Lütfen Node.js 18+ yükleyin: https://nodejs.org/"
+    print_error "Node.js not found!"
+    echo "Please install Node.js 18+: https://nodejs.org/"
     exit 1
 fi
 
 NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
 if [ "$NODE_VERSION" -lt 18 ]; then
-    print_error "Node.js 18+ gerekli. Mevcut: $(node -v)"
+    print_error "Node.js 18+ required. Current: $(node -v)"
     exit 1
 fi
-print_success "Node.js $(node -v) bulundu"
+print_success "Node.js $(node -v) found"
 
-# 2. Yarn/npm kontrolü
-print_info "Paket yöneticisi kontrolü yapılıyor..."
+# 2. Yarn/npm check
+print_info "Checking package manager..."
 if command -v yarn &> /dev/null; then
     PKG_MANAGER="yarn"
-    print_success "Yarn bulundu"
+    print_success "Yarn found"
 else
     PKG_MANAGER="npm"
-    print_success "npm kullanılacak"
+    print_success "Using npm"
 fi
 
-# 3. Bağımlılıkları yükle
+# 3. Install dependencies
 echo ""
-print_info "Bağımlılıklar yükleniyor..."
+print_info "Installing dependencies..."
 if [ "$PKG_MANAGER" = "yarn" ]; then
     yarn install --silent
 else
     npm install --silent
 fi
-print_success "Bağımlılıklar yüklendi"
+print_success "Dependencies installed"
 
-# 4. TypeScript derle
-print_info "Proje derleniyor..."
+# 4. Build TypeScript
+print_info "Building project..."
 if [ "$PKG_MANAGER" = "yarn" ]; then
     yarn build
 else
     npm run build
 fi
-print_success "Proje derlendi"
+print_success "Project built"
 
-# 5. Kullanıcıdan bilgi al
+# 5. Get user input
 echo ""
 echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
-echo -e "${YELLOW}  n8n API Bilgilerinizi Girin              ${NC}"
+echo -e "${YELLOW}  Enter your n8n API credentials           ${NC}"
 echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
 echo ""
 
-read -p "n8n URL'iniz (örn: https://n8n.example.com): " N8N_URL
-read -p "n8n API Anahtarınız: " N8N_API_KEY
+read -p "Your n8n URL (e.g., https://n8n.example.com): " N8N_URL
+read -p "Your n8n API Key: " N8N_API_KEY
 
-# URL'den trailing slash kaldır
+# Remove trailing slash from URL
 N8N_URL="${N8N_URL%/}"
 
-# 6. Konfigürasyon tipi seç
+# 6. Select configuration type
 echo ""
-echo "Konfigürasyon tipi seçin:"
-echo "  1) Global (Tüm Cursor projelerinde kullanılır)"
-echo "  2) Proje bazlı (Sadece bu projede kullanılır)"
-read -p "Seçiminiz (1/2): " CONFIG_TYPE
+echo "Select configuration type:"
+echo "  1) Global (Available in all Cursor projects)"
+echo "  2) Project-based (Only for this project)"
+read -p "Your choice (1/2): " CONFIG_TYPE
 
-# 7. MCP Konfigürasyonu oluştur
+# 7. Create MCP configuration
 DIST_PATH="$SCRIPT_DIR/dist/index.js"
 
 MCP_CONFIG=$(cat <<EOF
@@ -128,44 +128,43 @@ EOF
 )
 
 if [ "$CONFIG_TYPE" = "1" ]; then
-    # Global konfigürasyon - ~/.cursor/mcp.json
+    # Global configuration - ~/.cursor/mcp.json
     CONFIG_DIR="$HOME/.cursor"
     mkdir -p "$CONFIG_DIR"
     CONFIG_FILE="$CONFIG_DIR/mcp.json"
     
-    # Mevcut konfigürasyonu kontrol et
+    # Check existing configuration
     if [ -f "$CONFIG_FILE" ]; then
-        print_warning "Mevcut MCP konfigürasyonu bulundu: $CONFIG_FILE"
-        read -p "Üzerine yazılsın mı? (e/h): " OVERWRITE
-        if [ "$OVERWRITE" != "e" ]; then
-            print_info "Kurulum iptal edildi"
+        print_warning "Existing MCP configuration found: $CONFIG_FILE"
+        read -p "Overwrite? (y/n): " OVERWRITE
+        if [ "$OVERWRITE" != "y" ]; then
+            print_info "Installation cancelled"
             exit 0
         fi
     fi
     
     echo "$MCP_CONFIG" > "$CONFIG_FILE"
-    print_success "Global MCP konfigürasyonu oluşturuldu: $CONFIG_FILE"
+    print_success "Global MCP configuration created: $CONFIG_FILE"
 else
-    # Proje bazlı konfigürasyon
+    # Project-based configuration
     mkdir -p "$SCRIPT_DIR/.cursor"
     echo "$MCP_CONFIG" > "$SCRIPT_DIR/.cursor/mcp.json"
-    print_success "Proje MCP konfigürasyonu oluşturuldu: $SCRIPT_DIR/.cursor/mcp.json"
+    print_success "Project MCP configuration created: $SCRIPT_DIR/.cursor/mcp.json"
 fi
 
-# 8. Tamamlandı
+# 8. Complete
 echo ""
 echo -e "${GREEN}═══════════════════════════════════════════${NC}"
-echo -e "${GREEN}  ✓ Kurulum Tamamlandı!                    ${NC}"
+echo -e "${GREEN}  ✓ Installation Complete!                 ${NC}"
 echo -e "${GREEN}═══════════════════════════════════════════${NC}"
 echo ""
-print_info "Sonraki adımlar:"
-echo "  1. Cursor'ı tamamen kapatın"
-echo "  2. Cursor'ı yeniden açın"
-echo "  3. Yeni bir chat açıp şunu yazın: 'n8n bağlantısını kontrol et'"
+print_info "Next steps:"
+echo "  1. Completely close Cursor"
+echo "  2. Reopen Cursor"
+echo "  3. Open a new chat and type: 'Check n8n connection'"
 echo ""
-print_info "Örnek kullanımlar:"
-echo "  • 'n8n'deki workflow'ları listele'"
-echo "  • 'Yeni bir webhook workflow'u oluştur'"
-echo "  • 'XYZ workflow'unu aktif et'"
+print_info "Example commands:"
+echo "  • 'List all workflows in n8n'"
+echo "  • 'Create a new webhook workflow'"
+echo "  • 'Activate workflow XYZ'"
 echo ""
-

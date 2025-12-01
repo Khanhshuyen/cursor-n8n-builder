@@ -271,52 +271,52 @@ return results;`,
 const DOCUMENTATION = {
   overview: `# n8n Cursor MCP - Overview
 
-Bu MCP server, Cursor IDE'de AI asistanla n8n workflow'larınızı yönetmenizi sağlar.
+This MCP server enables AI assistants in Cursor IDE to manage your n8n workflows.
 
-## Kullanılabilir Araçlar
+## Available Tools
 
-### Workflow Yönetimi
-- **n8n_list_workflows** - Tüm workflow'ları listele
-- **n8n_get_workflow** - Workflow detaylarını al
-- **n8n_create_workflow** - Yeni workflow oluştur
-- **n8n_update_workflow** - Workflow güncelle
-- **n8n_delete_workflow** - Workflow sil
-- **n8n_activate_workflow** - Workflow aktif et
-- **n8n_deactivate_workflow** - Workflow deaktif et
+### Workflow Management
+- **n8n_list_workflows** - List all workflows
+- **n8n_get_workflow** - Get workflow details
+- **n8n_create_workflow** - Create a new workflow
+- **n8n_update_workflow** - Update a workflow
+- **n8n_delete_workflow** - Delete a workflow
+- **n8n_activate_workflow** - Activate a workflow
+- **n8n_deactivate_workflow** - Deactivate a workflow
 
-### Execution Yönetimi
-- **n8n_list_executions** - Çalışma geçmişini listele
-- **n8n_get_execution** - Çalışma detaylarını al
-- **n8n_delete_execution** - Çalışma kaydını sil
-- **n8n_trigger_webhook** - Webhook tetikle
+### Execution Management
+- **n8n_list_executions** - List execution history
+- **n8n_get_execution** - Get execution details
+- **n8n_delete_execution** - Delete an execution record
+- **n8n_trigger_webhook** - Trigger a webhook
 
-### Yardım
-- **n8n_tools_help** - Bu yardım menüsü
-- **n8n_get_node_info** - Node bilgileri
-- **n8n_health_check** - Bağlantı kontrolü
+### Help
+- **n8n_tools_help** - This help menu
+- **n8n_get_node_info** - Node information
+- **n8n_health_check** - Connection check
 
-## Önerilen İş Akışı
-1. İlk olarak \`n8n_health_check\` ile bağlantıyı doğrula
-2. \`n8n_list_workflows\` ile mevcut workflow'ları gör
-3. \`n8n_get_node_info\` ile kullanmak istediğin node'ları öğren
-4. \`n8n_create_workflow\` ile yeni workflow oluştur
-5. \`n8n_activate_workflow\` ile workflow'u aktif et
+## Recommended Workflow
+1. First, verify the connection with \`n8n_health_check\`
+2. View existing workflows with \`n8n_list_workflows\`
+3. Learn about nodes you want to use with \`n8n_get_node_info\`
+4. Create a new workflow with \`n8n_create_workflow\`
+5. Activate the workflow with \`n8n_activate_workflow\`
 `,
 
-  workflows: `# Workflow Yönetimi
+  workflows: `# Workflow Management
 
-## Workflow Oluşturma
+## Creating Workflows
 
-Her workflow şu bileşenlerden oluşur:
-- **name**: Workflow adı
-- **nodes**: Node dizisi
-- **connections**: Node'lar arası bağlantılar
+Every workflow consists of these components:
+- **name**: Workflow name
+- **nodes**: Array of nodes
+- **connections**: Connections between nodes
 
-### Node Yapısı
+### Node Structure
 \`\`\`json
 {
   "id": "unique-id",
-  "name": "Node Adı",
+  "name": "Node Name",
   "type": "n8n-nodes-base.webhook",
   "typeVersion": 2,
   "position": [250, 300],
@@ -324,7 +324,7 @@ Her workflow şu bileşenlerden oluşur:
 }
 \`\`\`
 
-### Connection Yapısı
+### Connection Structure
 \`\`\`json
 {
   "Source Node": {
@@ -335,28 +335,28 @@ Her workflow şu bileşenlerden oluşur:
 }
 \`\`\`
 
-## Önemli Notlar
-- Workflow oluşturulduğunda **inactive** durumda olur
-- Aktif etmek için \`n8n_activate_workflow\` kullan
-- Trigger node'u olmayan workflow aktif edilemez
-- Position değerleri [x, y] formatında piksel koordinatlarıdır
+## Important Notes
+- Workflows are created in **inactive** state
+- Use \`n8n_activate_workflow\` to activate
+- Workflows without a trigger node cannot be activated
+- Position values are pixel coordinates in [x, y] format
 `,
 
-  executions: `# Execution Yönetimi
+  executions: `# Execution Management
 
-## Execution Durumları
-- **success**: Başarıyla tamamlandı
-- **error**: Hata ile sonlandı
-- **waiting**: Bekliyor (webhook yanıtı, zamanlayıcı vb.)
+## Execution States
+- **success**: Completed successfully
+- **error**: Ended with an error
+- **waiting**: Waiting (webhook response, scheduler, etc.)
 
-## Webhook Tetikleme
+## Triggering Webhooks
 
-\`n8n_trigger_webhook\` kullanarak aktif workflow'ları tetikleyebilirsin:
-- Workflow **aktif** olmalı
-- Webhook node'u olmalı
-- HTTP metodu doğru olmalı (genellikle POST)
+You can trigger active workflows using \`n8n_trigger_webhook\`:
+- Workflow must be **active**
+- Must have a webhook node
+- HTTP method must be correct (usually POST)
 
-### Örnek
+### Example
 \`\`\`
 n8n_trigger_webhook({
   webhookUrl: "https://n8n.example.com/webhook/abc-123",
@@ -366,35 +366,35 @@ n8n_trigger_webhook({
 \`\`\`
 `,
 
-  nodes: `# Yaygın n8n Node'ları
+  nodes: `# Common n8n Nodes
 
-## Trigger Node'ları (Workflow başlatıcılar)
-- **webhook** - HTTP webhook ile tetikle
-- **scheduleTrigger** - Zamanlı tetikle (cron)
-- **manualTrigger** - Manuel tetikle (test için)
+## Trigger Nodes (Workflow starters)
+- **webhook** - Trigger via HTTP webhook
+- **scheduleTrigger** - Scheduled trigger (cron)
+- **manualTrigger** - Manual trigger (for testing)
 
-## İşlem Node'ları
-- **httpRequest** - HTTP istekleri yap
-- **code** - JavaScript/Python kodu çalıştır
-- **set** - Veri alanlarını ayarla
-- **if** - Koşullu dallanma
-- **merge** - Verileri birleştir
-- **splitInBatches** - Verileri parçalara böl
+## Action Nodes
+- **httpRequest** - Make HTTP requests
+- **code** - Run JavaScript/Python code
+- **set** - Set data fields
+- **if** - Conditional branching
+- **merge** - Merge data
+- **splitInBatches** - Split data into batches
 
-## Yanıt Node'ları
-- **respondToWebhook** - Webhook yanıtı gönder
+## Response Nodes
+- **respondToWebhook** - Send webhook response
 
-## Node Bilgisi Alma
-\`n8n_get_node_info\` ile detaylı bilgi al:
+## Getting Node Information
+Get detailed info with \`n8n_get_node_info\`:
 \`\`\`
 n8n_get_node_info({ nodeType: "webhook" })
 n8n_get_node_info({ nodeType: "httpRequest" })
 \`\`\`
 `,
 
-  examples: `# Örnek Workflow'lar
+  examples: `# Example Workflows
 
-## 1. Basit Webhook Workflow
+## 1. Simple Webhook Workflow
 \`\`\`json
 {
   "name": "Simple Webhook",
@@ -431,7 +431,7 @@ n8n_get_node_info({ nodeType: "httpRequest" })
 }
 \`\`\`
 
-## 2. HTTP Request ile API Çağrısı
+## 2. API Call with HTTP Request
 \`\`\`json
 {
   "name": "API Call Workflow",
@@ -464,7 +464,7 @@ n8n_get_node_info({ nodeType: "httpRequest" })
 }
 \`\`\`
 
-## 3. Koşullu İşlem
+## 3. Conditional Processing
 \`\`\`json
 {
   "name": "Conditional Workflow",
