@@ -1,0 +1,55 @@
+{
+  "name": "cursor-n8n-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for n8n workflow management in Cursor IDE",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "cursor-n8n-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist/**/*",
+    "install.sh",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build",
+    "prepublishOnly": "npm run rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/cursor-n8n-mcp.git"
+  },
+  "keywords": [
+    "n8n",
+    "mcp",
+    "cursor",
+    "model-context-protocol",
+    "workflow",
+    "automation",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/cursor-n8n-mcp/issues"
+  },
+  "homepage": "https://github.com/yourusername/cursor-n8n-mcp#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.1",
+    "dotenv": "^16.5.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
